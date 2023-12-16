@@ -31,6 +31,9 @@ jobs:
     - name: flutter build
       run: flutter build windows
 
+    - name: flutter build apk
+      run: flutter build apk --target-platform android-arm64 --release --no-tree-shake-icons --obfuscate --split-debug-info=./symbols
+
     - name: dir
       run: dir .
 
@@ -48,6 +51,7 @@ jobs:
         prerelease: false
         files: |
           ./build/windows/x64/runner/Release/login_wifi.exe
+          ./build/app/outputs/flutter-apk/app-release.apk
           
 
 
