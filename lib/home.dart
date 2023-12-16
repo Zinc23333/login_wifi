@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:login_wifi/login.dart';
 import 'package:login_wifi/pinfo.dart';
 
@@ -12,7 +11,7 @@ class MyHomePage extends StatelessWidget {
     tryLogin(accPwd).then(
       (res) {
         if (res.state) {
-          SystemChannels.platform.invokeMethod('SystemNavigator.pop').then((value) => null);
+          exitApp();
         }
       },
     );
@@ -27,7 +26,7 @@ class MyHomePage extends StatelessWidget {
               onPressed: () async {
                 final res = await tryLogin(accPwd);
                 if (res.state) {
-                  await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  exitApp();
                 } else {
                   if (!context.mounted) return;
                   showDialog(

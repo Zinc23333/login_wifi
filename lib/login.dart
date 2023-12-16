@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,8 +33,12 @@ Future<AccPwd?> getInfo() async {
   final acc = prefs.getString("acc");
   final pwd = prefs.getString("pwd");
   if (acc == null || pwd == null) return null;
-  print("$acc, $pwd");
   return AccPwd(acc, pwd);
+}
+
+void exitApp() async {
+  await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  exit(0);
 }
 
 enum LoginState { success, failure }
