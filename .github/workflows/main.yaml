@@ -24,6 +24,9 @@ jobs:
 
     - name: flutter pub get
       run: flutter pub get
+
+    - name: flutter version
+      run: flutter --version
     
     - name: flutter build
       run: flutter build windows
@@ -38,8 +41,8 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          ${{ secrets.ReleaseZipName }}.zip
-          LICENSE 
+          ${{ secrets.ReleaseZipName }}.exe
+          
 
 
   
