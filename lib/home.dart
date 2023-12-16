@@ -24,8 +24,10 @@ class MyHomePage extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.login, size: 64),
               onPressed: () async {
+                final sm = ScaffoldMessenger.of(context);
                 final res = await tryLogin(accPwd);
                 if (res.state) {
+                  sm.showSnackBar(const SnackBar(content: Text("登陆成功")));
                   exitApp();
                 } else {
                   if (!context.mounted) return;
