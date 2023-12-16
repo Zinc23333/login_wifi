@@ -11,11 +11,35 @@ jobs:
   build-job1:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'beta'
-      - run: flutter config --enable-windows-desktop
-      - run: flutter build windows
+    - name: Checkout Resources
+      uses: actions/checkout@v3
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'beta'
+    
+    - name: flutter config
+      run: flutter config --enable-windows-desktop
+
+    - name: flutter pub get
+      run: flutter pub get
+    
+    - name: flutter build
+      run: flutter build windows
+
+    - name: Create Release and Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ github.ref }}
+        name: Release ${{ github.ref }}
+        body: TODO New Release.
+        draft: false
+        prerelease: false
+        files: |
+          ${{ secrets.ReleaseZipName }}.zip
+          LICENSE 
+
 
   
