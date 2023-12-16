@@ -60,6 +60,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       # if: startsWith(github.ref, 'refs/tags/')
       with:
+        tag_name: ${{ github.ref }}
         name: New Release
         body: 新的 Release
         draft: false
