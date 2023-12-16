@@ -37,8 +37,8 @@ jobs:
     - name: flutter build
       run: flutter build windows
 
-    - name: flutter build apk
-      run: flutter build apk --target-platform android-arm64 --release --no-tree-shake-icons --obfuscate --split-debug-info=./symbols
+    # - name: flutter build apk
+    #   run: flutter build apk --target-platform android-arm64 --release --no-tree-shake-icons --obfuscate --split-debug-info=./symbols
 
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
@@ -53,8 +53,8 @@ jobs:
     - name: dir2
       run: dir ./build/windows/x64/runner/Release/
 
-    - name: dir3
-      run: dir ./build/app/outputs/flutter-apk/
+    # - name: dir3
+    #   run: dir ./build/app/outputs/flutter-apk/
     
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -67,7 +67,7 @@ jobs:
         prerelease: false
         files: |
           ./build/windows/x64/runner/Release/Login_Wifi_Windows.zip
-          ./build/app/outputs/flutter-apk/app-release.apk
+        # ./build/app/outputs/flutter-apk/app-release.apk
           
 
 
