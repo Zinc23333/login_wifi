@@ -34,6 +34,9 @@ jobs:
     - name: dir
       run: dir .
 
+    - name: dir2
+      run: dir ./build/windows/x64/runner/Release/
+
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -44,7 +47,7 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          build\windows\x64\runner\Release\login_wifi.exe
+          ./build/windows/x64/runner/Release/login_wifi.exe
           
 
 
