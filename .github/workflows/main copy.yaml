@@ -1,0 +1,74 @@
+# main.yml
+name: Release program manually
+
+on:
+  workflow_dispatch: 
+
+# 这个工作流程需要执行的任务
+jobs:
+  build-job1:
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Checkout Resources
+      uses: actions/checkout@v3
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'beta'
+
+    - name: java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+    
+    - name: flutter config
+      run: flutter config --enable-windows-desktop
+
+    - name: flutter pub get
+      run: flutter pub get
+
+    - name: flutter version
+      run: flutter --version
+    
+    - name: flutter build
+      run: flutter build windows
+
+    - name: flutter build apk
+      run: flutter build apk --target-platform android-arm64 --release --no-tree-shake-icons --obfuscate --split-debug-info=./symbols
+
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'Login_Wifi_Windows.zip'
+        directory: './build/windows/x64/runner/Release/'
+    
+    - name: dir
+      run: dir ./
+
+    - name: dir2
+      run: dir ./build/windows/x64/runner/Release/
+
+    - name: dir3
+      run: dir ./build/app/outputs/flutter-apk/
+    
+    - name: Create Release and Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ github.ref }}
+        name: Release ${{ github.ref }}
+        body: 新的 Release
+        draft: false
+        prerelease: false
+        files: |
+          ./build/windows/x64/runner/Release/Login_Wifi_Windows.zip
+          ./build/app/outputs/flutter-apk/app-release.apk
+          
+
+
+  
