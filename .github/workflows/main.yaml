@@ -1,5 +1,5 @@
 # main.yml
-name: Test, Build and Release apk
+name: Release program
 
 on:
   push:
@@ -10,7 +10,9 @@ on:
 jobs:
   build-job1:
     runs-on: windows-latest
+
     steps:
+
     - name: Checkout Resources
       uses: actions/checkout@v3
 
@@ -40,6 +42,13 @@ jobs:
     - name: flutter build apk
       run: flutter build apk --target-platform android-arm64 --release --no-tree-shake-icons --obfuscate --split-debug-info=./symbols
 
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'Login_Wifi_Windows.zip'
+        directory: './build/windows/x64/runner/Release/'
+
     - name: dir
       run: dir .
 
@@ -48,6 +57,8 @@ jobs:
 
     - name: dir3
       run: dir ./build/app/outputs/flutter-apk/
+    
+
 
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -55,11 +66,11 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         name: Release ${{ github.ref }}
-        body: TODO New Release.
+        body: 新的 Release
         draft: false
         prerelease: false
         files: |
-          ./build/windows/x64/runner/Release/login_wifi.exe
+          ./build/windows/x64/runner/Release/Login_Wifi_Windows.zip
           ./build/app/outputs/flutter-apk/app-release.apk
           
 
