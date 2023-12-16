@@ -50,7 +50,7 @@ jobs:
         directory: './build/windows/x64/runner/Release/'
 
     - name: dir
-      run: dir .
+      run: dir ./
 
     - name: dir2
       run: dir ./build/windows/x64/runner/Release/
