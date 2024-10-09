@@ -21,10 +21,11 @@ Future<LoginRes> tryLogin(AccPwd accPwd) async {
   }
 }
 
-Future<void> saveInfo(String acc, String pwd) async {
+Future<void> saveInfo(String acc, String pwd, bool auto) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("acc", acc);
   prefs.setString("pwd", pwd);
+  prefs.setBool("auto", auto);
 }
 
 Future<AccPwd?> getInfo() async {
@@ -32,8 +33,9 @@ Future<AccPwd?> getInfo() async {
 
   final acc = prefs.getString("acc");
   final pwd = prefs.getString("pwd");
+  final auto = prefs.getBool("auto") ?? false;
   if (acc == null || pwd == null) return null;
-  return AccPwd(acc, pwd);
+  return AccPwd(acc, pwd, auto);
 }
 
 void exitApp() async {
@@ -56,6 +58,7 @@ class LoginRes {
 class AccPwd {
   final String acc;
   final String pwd;
+  final bool auto;
 
-  const AccPwd(this.acc, this.pwd);
+  const AccPwd(this.acc, this.pwd, [this.auto = false]);
 }
